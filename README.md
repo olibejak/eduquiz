@@ -23,10 +23,17 @@ Projekt je navržen na architektuře mikroservis a využívá kontejnerizaci pro
 ```text
 bp-quiz-platform/
 ├── frontend/               # Zdrojové kódy React aplikace
+│   ├── package.json
+│   └── ...
 ├── backend/                # Zdrojové kódy backendových služeb (Spring Boot)
-│   ├── api-gateway/        # Vstupní brána a směrování požadavků
-│   ├── auth-service/       # Správa uživatelů a JWT autentizace
-│   ├── deck-service/       # Správa sad a otázek (CRUD)
-│   └── quiz-service/       # Logika real-time kvízů (WebSockets)
-├── docker-compose.yml      # Konfigurace pro spuštění celé infrastruktury
-└── README.md               # Tento soubor
+│   ├── deck-service/       # Služba pro správu sad a otázek
+│   ├── flashcards-service/ # Služba pro flashcards samostudium
+│   ├── quiz-service/       # Služba pro real-time kvízy (WebSockets)
+│   └── user-service/       # Služba pro uživatele a autentizaci
+├── postgres-init/          # Inicializaci databází
+│   └── init.sql            # Skript, který vytvoří DB pro každou službu
+├── nginx/                  # Konfigurace pro Nginx (API Gateway)
+│   └── nginx.conf          # Pravidla pro směrování (REST vs WebSockets)
+├── docker-compose.yml      # Hlavní soubor pro spuštění infrastruktury
+├── .gitignore              # Gitem ignorované soubory (node_modules, target, .idea atd.)
+└── README.md                
