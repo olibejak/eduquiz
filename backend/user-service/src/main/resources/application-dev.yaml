@@ -1,0 +1,4 @@
+logging:
+  level:
+    cz.cvut.fel.bp.userservice.controller: DEBUG
+    cz.cvut.fel.bp.userservice.service: DEBUG
