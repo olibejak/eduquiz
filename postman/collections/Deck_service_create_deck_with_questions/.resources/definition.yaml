@@ -1,4 +1,0 @@
-$kind: collection
-name: Deck_service_create_deck_with_questions
-variables:
-  deck_id: ""

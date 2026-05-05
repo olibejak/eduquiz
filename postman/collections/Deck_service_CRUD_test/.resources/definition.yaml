@@ -1,4 +1,0 @@
-$kind: collection
-name: Deck_service_CRUD_test
-variables:
-  deck_id: ""
