@@ -14,10 +14,14 @@ Cílem projektu je vytvořit hybridní výukovou platformu, která propojuje **s
 Projekt je navržen na architektuře mikroservis a využívá kontejnerizaci pro snadné nasazení.
 
 * **Frontend:** React, TypeScript, Tailwind CSS / Material UI (PWA)
-* **Backend:** Java 21, Spring Boot 3, Spring Security (JWT)
-* **Databáze:** PostgreSQL
+* **Backend:** Java 21, Spring Boot 3, Spring Security (JWT) - https://start.spring.io
+* **Databáze:** PostgreSQL (v18)
 * **Message Broker:** RabbitMQ (pro asynchronní události mezi mikroservisami)
+* **API Gateway:** Nginx (v1.29)
 * **Infrastruktura:** Docker & Docker Compose
+
+## Spuštění
+export $(grep -v '^#' .env | xargs) && mvn spring-boot:run
 
 ## 📁 Struktura repozitáře (Monorepo)
 ```text
