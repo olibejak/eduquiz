@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: UserServiceApplication
+  datasource:
+    url: ${DB_URL}${USER_DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+
+app:
+  security:
+    google:
+      client-id: ${GOOGLE_CLIENT_ID}
+    # Custom JWT
+    jwt:
+      secret: ${JWT_SECRET} # at least 256 bits / 32 characters
+      expiration-ms: ${JWT_EXPIRATION} # [ms]
+      issuer: ${JWT_ISSUER}
+
+logging:
+  level:
+    root: INFO
+

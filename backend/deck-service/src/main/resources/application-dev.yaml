@@ -1,0 +1,7 @@
+logging:
+  level:
+    cz.cvut.fel.bp.deckservice.controller: DEBUG
+    cz.cvut.fel.bp.deckservice.service: DEBUG
+    cz.cvut.fel.bp.deckservice.service.facade: DEBUG
+    cz.cvut.fel.bp.deckservice.security: DEBUG
+
