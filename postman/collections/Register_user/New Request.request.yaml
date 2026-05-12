@@ -1,0 +1,9 @@
+$kind: http-request
+name: New Request
+url: http://localhost:8080/user/me
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{OAuth_id_token}}"
+order: 1774268297770

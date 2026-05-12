@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: DeckServiceApplication
+  datasource:
+    url: ${DB_URL}${DECK_DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc.batch_size: 50 # num of insert/update statements to send in one batch
+        order_inserts: true
+        order_updates: true
+    show-sql: false
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled : true
+
+app:
+  security:
+    # Custom JWT
+    jwt:
+      secret: ${JWT_SECRET} # at least 256 bits / 32 characters
+
+microservices:
+  user-service:
+    url: ${USER_SERVICE_URL}
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 15000
+    instances:
+      deckService:
+        baseConfig: default
+      rabbitPublisher:
+        slidingWindowSize: 5
+        failureRateThreshold: 80
+
+logging:
+  level:
+    root: INFO

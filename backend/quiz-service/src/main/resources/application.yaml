@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: QuizServiceApplication
+  datasource:
+    url: ${DB_URL}${QUIZ_DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc.batch_size: 50
+        order_inserts: true
+        order_updates: true
+    show-sql: false
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+
+app:
+  security:
+    # Custom JWT
+    jwt:
+      secret: ${JWT_SECRET} # at least 256 bits / 32 characters
+  rabbitmq:
+    exchange:
+      name: quiz-exchange
+  cors:
+    allowed-origins: ${FE_ORIGIN},http://localhost:8080
+
+microservices:
+  deck-service:
+    url: ${DECK_SERVICE_URL}
+
+quiz:
+  cleanup:
+    empty-lobby-timeout-minutes: 30
+    interval-ms: 300000
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 15000
+    instances:
+      deckService:
+        baseConfig: default
+      rabbitPublisher:
+        slidingWindowSize: 5
+        failureRateThreshold: 80
+
+logging:
+  level:
+    root: INFO
