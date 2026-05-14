@@ -1,0 +1,26 @@
+$kind: http-request
+name: Create deck
+url: "{{baseUrl}}/api/decks"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "title": "Java and OOP Basics",
+      "description": "Test deck for Postman",
+      "visibility": "PUBLIC",
+      "tags": ["PROGRAMMING"],
+      "questions": [] 
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 201", function () {
+          pm.response.to.have.status(201);
+      });
+      var jsonData = pm.response.json();
+      if (jsonData.id) {
+          pm.environment.set("deckId", jsonData.id);
+      }
+    language: text/javascript
+order: 1778685494609

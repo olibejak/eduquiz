@@ -1,0 +1,14 @@
+$kind: http-request
+name: Add deck to session
+url: "{{baseUrl}}/api/quiz/{{quizPin}}/decks/{{deckId}}"
+method: POST
+headers:
+  Quiz-Token: "{{hostToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+    language: text/javascript
+order: 1401649837874119

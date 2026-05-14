@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Save, User as UserIcon, Mail, AlertCircle, CheckCircle2 } from 'lucide-react';
+import {Save, User as UserIcon, Mail, AlertCircle, CheckCircle2, Trash2} from 'lucide-react';
+import {api} from "../api/axios.ts";
 
 export default function Settings() {
-    const { user, updateProfile } = useAuth();
+    const { user, updateProfile, logout } = useAuth();
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -12,10 +13,8 @@ export default function Settings() {
     const [successMsg, setSuccessMsg] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
 
-    // Předvyplnění formuláře aktuálními daty uživatele
     useEffect(() => {
         if (user) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
             setUsername(user.username);
             setEmail(user.email || '');
         }
@@ -31,12 +30,36 @@ export default function Settings() {
             await updateProfile(username, email);
             setSuccessMsg('Profil byl úspěšně aktualizován!');
 
-            // Schováme zprávu o úspěchu po 3 sekundách
             setTimeout(() => setSuccessMsg(''), 3000);
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : 'Nastala neočekávaná chyba.';
             setErrorMsg(message);
         } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleDeleteAccount = async () => {
+        if (!window.confirm("Opravdu chcete nenávratně smazat svůj účet? Přijdete o všechny své sady, historii kvízů i postup ve studiu (flashcards).")) {
+            return;
+        }
+
+        setIsLoading(true);
+        setErrorMsg('');
+        setSuccessMsg('');
+
+        try {
+            await api.delete('/users/me');
+
+            if (typeof logout === 'function') {
+                logout();
+            } else {
+                localStorage.removeItem('token');
+                window.location.href = '/';
+            }
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : 'Nepodařilo se smazat účet. Zkuste to prosím znovu.';
+            setErrorMsg(message);
             setIsLoading(false);
         }
     };
@@ -110,6 +133,21 @@ export default function Settings() {
                         </button>
                     </div>
                 </form>
+            </div>
+            <div className="bg-red-500/5 border border-red-500/20 rounded-xl p-6 shadow-sm">
+                <h2 className="text-xl font-bold text-red-500 mb-2">Smazání účtu</h2>
+                <p className="text-(--text) text-sm mb-4">
+                    Trvale přijdete o veškerou historii kvízů, vytvořené sady a postup ve studiu (flashcards). <strong>Tuto akci nelze vzít zpět.</strong>
+                </p>
+                <button
+                    type="button"
+                    onClick={handleDeleteAccount}
+                    disabled={isLoading}
+                    className="flex items-center gap-2 bg-red-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    <Trash2 size={18} />
+                    {isLoading ? 'Zpracovávám...' : 'Smazat účet'}
+                </button>
             </div>
         </div>
     );

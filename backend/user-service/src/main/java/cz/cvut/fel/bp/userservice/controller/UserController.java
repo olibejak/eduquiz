@@ -78,8 +78,8 @@ public class UserController {
      * @param principal The UserPrincipal containing the authenticated admin's details.
      * @return A ResponseEntity with no content if the deletion is successful.
      */
-    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable UUID id,
                                         @AuthenticationPrincipal UserPrincipal principal) {
         log.debug("Delete user request by admin adminId={} userId={}",principal.id(), id);

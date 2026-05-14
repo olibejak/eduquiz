@@ -8,7 +8,6 @@ import cz.cvut.fel.bp.userservice.service.fasade.GoogleAuthServiceFacade;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -67,12 +66,12 @@ public class AuthController {
     public ResponseEntity<?> logout(@AuthenticationPrincipal UserPrincipal user){
         log.debug("Logout user request userId={}", user.id());
         return ResponseEntity.ok()
-                .header("Set-Cookie", "jwt_token=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax")
+                .header("Set-Cookie", "jwt_token=; HttpOnly; Path=/; Max-Age=0; SameSite=None; Secure")
                 .body(null);
     }
 
     private ResponseEntity<?> buildJwtResponse(UserResponseDTO userResponse, HttpStatus status) {
-        String customJwt = jwtGenerator.generateToken(userResponse.id(), userResponse.role().toString(), userResponse.username());
+        String customJwt = jwtGenerator.generateToken(userResponse.id(), userResponse.role().toString(), userResponse.username(), userResponse.email());
 
         return ResponseEntity.status(status)
                 .header("Set-Cookie", "jwt_token=" + customJwt + "; HttpOnly; Path=/; SameSite=None; Secure")

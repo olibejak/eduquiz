@@ -13,7 +13,13 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     @Value("${app.rabbitmq.exchange.name}")
-    private String exchangeName;
+    private String quizExchangeName;
+
+    @Value("${app.rabbitmq.queue.quiz-history}")
+    private String quizHistoryQueueName;
+
+    @Value("${app.rabbitmq.exchange.user}")
+    private String userExchangeName;
 
     @Bean
     public MessageConverter jsonMessageConverter() {
@@ -27,14 +33,18 @@ public class RabbitMQConfig {
         return template;
     }
 
+    // ############
+    // QUIZ
+    // ############
+
     @Bean
     public TopicExchange domainExchange() {
-        return new TopicExchange(exchangeName);
+        return new TopicExchange(quizExchangeName);
     }
 
     @Bean
     public Queue quizHistoryQueue() {
-        return new Queue("user-service.quiz-history.queue", true);
+        return new Queue(quizHistoryQueueName, true);
     }
 
     @Bean
@@ -43,5 +53,14 @@ public class RabbitMQConfig {
                 .bind(quizHistoryQueue)
                 .to(domainExchange)
                 .with("quiz.ended");
+    }
+
+    // ##############
+    // USER
+    // #############
+
+    @Bean
+    public TopicExchange userExchange() {
+        return new TopicExchange(userExchangeName);
     }
 }

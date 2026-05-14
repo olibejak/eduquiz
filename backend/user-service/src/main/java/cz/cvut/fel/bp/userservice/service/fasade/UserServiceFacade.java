@@ -3,6 +3,7 @@ package cz.cvut.fel.bp.userservice.service.fasade;
 import cz.cvut.fel.bp.userservice.dto.UserInfoDTO;
 import cz.cvut.fel.bp.userservice.dto.UserResponseDTO;
 import cz.cvut.fel.bp.userservice.dto.UserUpdateRequestDTO;
+import cz.cvut.fel.bp.userservice.model.UserRole;
 import cz.cvut.fel.bp.userservice.security.UserPrincipal;
 import cz.cvut.fel.bp.userservice.mapper.UserMapper;
 import cz.cvut.fel.bp.userservice.model.User;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**

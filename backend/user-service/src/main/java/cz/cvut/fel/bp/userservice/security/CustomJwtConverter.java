@@ -20,12 +20,14 @@ public class CustomJwtConverter implements Converter<Jwt, AbstractAuthentication
         UUID userId = UUID.fromString(jwt.getClaimAsString("userId"));
         String role = jwt.getClaimAsString("role");
         String username = jwt.getClaimAsString("username");
+        String email = jwt.getClaimAsString("email");
 
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
 
         UserPrincipal principal = UserPrincipal.builder()
                 .id(userId)
                 .username(username)
+                .email(email)
                 .role(role)
                 .build();
 

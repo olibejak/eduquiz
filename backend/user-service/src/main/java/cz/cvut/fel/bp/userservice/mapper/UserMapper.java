@@ -48,11 +48,26 @@ public interface UserMapper {
     UserInfoDTO userPrincipalToUserInfo(UserPrincipal principal);
 
     /**
-     * Converts User entity to a DTO that is used among microservices for security.
+     * Converts User principal to a response DTO. Role is derived from the principal.role() string
+     * and converted to the enum using a tolerant helper.
      * @param principal User principal from security
-     * @return User info DTO
+     * @return User response DTO
      */
-    UserResponseDTO userPrincipalToUserResponse(UserPrincipal principal);
+    /**
+     * Map principal to response DTO. Implemented as a default method to ensure
+     * the conversion from principal.role() string to UserRole uses the
+     * tolerant fromString(...) helper and avoids generated Enum.valueOf calls.
+     */
+    default UserResponseDTO userPrincipalToUserResponse(UserPrincipal principal) {
+        if (principal == null) return null;
+
+        return UserResponseDTO.builder()
+                .id(principal.id())
+                .username(principal.username())
+                .email(principal.email())
+                .role(cz.cvut.fel.bp.userservice.model.UserRole.fromString(principal.role()))
+                .build();
+    }
 
     /**
      * Converts registration DTO to User entity.

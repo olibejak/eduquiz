@@ -1,0 +1,27 @@
+$kind: http-request
+name: Register
+url: "{{baseUrl}}/api/auth/register/google"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "googleToken": {{googleToken}}
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      // 201 for new user or 409 if already registered
+      pm.test("Registration completes or user already exists", function () {
+          pm.expect(pm.response.code).to.be.oneOf([201, 400, 409]);
+      });
+
+      // if 201 -> check ID
+      if (pm.response.code === 201) {
+          pm.test("New user has ID", function () {
+              var jsonData = pm.response.json();
+              pm.expect(jsonData.id).to.exist;
+          });
+      }
+    language: text/javascript
+order: 29659563912209

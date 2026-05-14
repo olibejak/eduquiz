@@ -44,6 +44,8 @@ public interface DeckRepository extends JpaRepository<Deck, Long> {
     @Query("SELECT d.id AS id, d.title AS name FROM Deck d WHERE d.id IN :deckIds")
     List<DeckIdAndName> findNamesByIds(@Param("deckIds") List<Long> deckIds);
 
+    void deleteAllByAuthorId(UUID userId);
+
     /**
      * Projection interface for fetching deck ID and name.
      */

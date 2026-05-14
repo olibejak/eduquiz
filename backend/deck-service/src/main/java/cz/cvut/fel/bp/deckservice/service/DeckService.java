@@ -6,10 +6,12 @@ import cz.cvut.fel.bp.deckservice.model.DeckTagType;
 import cz.cvut.fel.bp.deckservice.model.VisibilityType;
 import cz.cvut.fel.bp.deckservice.repository.DeckRepository;
 import cz.cvut.fel.bp.deckservice.security.UserPrincipal;
+import cz.cvut.fel.bp.deckservice.service.event.DeckDeletedEvent;
 import cz.cvut.fel.bp.deckservice.service.validation.QuestionAnswerValidator;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -32,6 +34,7 @@ public class DeckService {
 
     private final DeckRepository deckRepository;
     private final QuestionAnswerValidator questionAnswerValidator;
+    private final ApplicationEventPublisher eventPublisher;
 
     /**
      * Creates a new deck with the given author ID and request data.
@@ -80,6 +83,7 @@ public class DeckService {
         Deck deck = getDeckById(deckId);
         verifyOwnership(deck, userPrincipal);
         deckRepository.delete(deck);
+        eventPublisher.publishEvent(new DeckDeletedEvent(deckId));
         log.info("Deck deleted userId={}, deckId={}", userPrincipal.id(), deckId);
     }
 
@@ -226,5 +230,12 @@ public class DeckService {
     public Slice<Deck> getPublicAndUserDecks(UUID authorId, Pageable pageable) {
         log.debug("Get public and user decks page={}, size={}", pageable.getPageNumber(), pageable.getPageSize());
         return deckRepository.findAllByVisibilityOrAuthorId(VisibilityType.PUBLIC, authorId, pageable);
+    }
+
+    @Transactional
+    public void deleteAllDecksByUserId(UUID userId) {
+        log.debug("Delete all decks by userId={}", userId);
+        deckRepository.deleteAllByAuthorId(userId);
+        log.info("Deleted decks by userId={}", userId);
     }
 }

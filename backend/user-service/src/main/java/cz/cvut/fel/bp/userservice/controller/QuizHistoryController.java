@@ -7,6 +7,7 @@ import cz.cvut.fel.bp.userservice.service.QuizHistoryService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ public class QuizHistoryController {
 
     private final QuizHistoryService quizHistoryService;
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/me")
     public ResponseEntity<List<UserHistoryItemDTO>> getMyHistory(
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
@@ -28,6 +30,7 @@ public class QuizHistoryController {
         return ResponseEntity.ok(history);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/sessions/{sessionId}")
     public ResponseEntity<QuizLeaderboardDTO> getSessionLeaderboard(
             @PathVariable Long sessionId) {

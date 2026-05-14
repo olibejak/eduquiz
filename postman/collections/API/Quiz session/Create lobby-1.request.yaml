@@ -1,0 +1,29 @@
+$kind: http-request
+name: Create lobby
+url: "{{baseUrl}}/api/quiz/create"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "userId": "{{userId}}", 
+      "nickname": "user",
+      "deviceId": "dev-123"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 201", function () {
+          pm.response.to.have.status(201);
+      });
+      var jsonData = pm.response.json();
+      if (jsonData.lobbyPin) {
+          pm.environment.set("quizPin", jsonData.lobbyPin);
+      }
+      if (jsonData.hostToken) {
+          pm.environment.set("hostToken", jsonData.hostToken);
+      }
+    language: text/javascript
+settings:
+  disabledSystemHeaders: []
+order: 943909701780068

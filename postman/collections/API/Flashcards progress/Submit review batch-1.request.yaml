@@ -1,0 +1,23 @@
+$kind: http-request
+name: Submit review batch
+url: "{{baseUrl}}/api/flashcards/{{deckId}}"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "reviews": [
+        {
+          "questionId": {{questionId}},
+          "rating": "AGAIN"
+        }
+      ]
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+    language: text/javascript
+order: 2757066362205412

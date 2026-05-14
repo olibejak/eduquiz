@@ -1,0 +1,20 @@
+$kind: http-request
+name: Join lobby
+url: "{{baseUrl}}/api/quiz/{{quizPin}}/join"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "userId": null,
+      "nickname": "Student 1",
+      "deviceId": "dev-456"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+    language: text/javascript
+order: 4393325132207100

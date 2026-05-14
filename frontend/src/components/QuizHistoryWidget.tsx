@@ -47,12 +47,12 @@ export default function QuizHistoryWidget() {
         setIsLoadingLeaderboard(true);
         setLeaderboard(null);
 
-        api.get(`/api/users/history/sessions/${sessionId}`)
+        api.get(`/users/history/sessions/${sessionId}`)
             .then((response) => {
-                setQuizHistory(response.data || []);
+                setLeaderboard(response.data || []);
             })
             .catch(err => console.log("Chyba při načítání výsledků kvízu", err))
-            .finally(() => setIsLoadingHistory(false));
+            .finally(() => setIsLoadingLeaderboard(false));
     };
 
     if (!user) return null;

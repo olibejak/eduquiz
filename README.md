@@ -1,43 +1,57 @@
-# Vzdělávací platforma (Kvízy & Flashcards)
+# BP EduQuiz App
 
-Tento repozitář obsahuje zdrojové kódy k bakalářské práci: **Webová kvízová aplikace pro podporu individuální i skupinové výuky**.
+Quiz and flashcards platform for individual study and live group quizzes.
 
-Cílem projektu je vytvořit hybridní výukovou platformu, která propojuje **synchronní výuku** (real-time skupinové soutěžení) a **asynchronní samostudium** (kartičky využívající Spaced Repetition).
+## Structure
+- [`frontend/`](frontend) - React frontend application
+  - [`frontend/README.md`](frontend/README.md) - Frontend documentation
+- [`backend/`](backend) - Spring Boot microservices
+  - [`backend/user-service`](backend/user-service) - user service
+  - [`backend/deck-service`](backend/deck-service) - deck service
+  - [`backend/quiz-service`](backend/quiz-service) - quiz service
+  - [`backend/flashcards-service`](backend/flashcards-service) - flashcards service
+- [`nginx/`](nginx) - Nginx configuration for API gateway and frontend hosting
+  - [`nginx/default.conf`](nginx/nginx.conf) - Nginx configuration file
+- [`postgres-init/`](postgres-init) - SQL scripts to initialize PostgreSQL databases
+  - [`postgres-init/init.sql`](postgres-init/init.sql) - SQL initialization script
 
-## 🚀 Hlavní funkce
-- **Skupinové kvízy (Real-time):** Interaktivní soutěžení více hráčů s nízkou latencí (využívá WebSockets).
-- **Individuální výuka (Flashcards):** Samostudium pomocí kartiček s implementací algoritmu pro efektivní opakování (Spaced Repetition).
-- **Správa obsahu:** Kompletní CRUD operace pro tvorbu, úpravu a sdílení sad otázek.
-- **Gamifikace:** Uživatelské statistiky a sledování pokroku.
+- [`docker-compose.yml`](docker-compose.yml) - local infrastructure
+- [`build-microservices.sh`](build-microservices.sh) - script to build all Spring Boot microservices
+- [`.env.example`](.env.example) - environment variables template
+ 
+## Setup
 
-## 🛠 Použité technologie
-Projekt je navržen na architektuře mikroservis a využívá kontejnerizaci pro snadné nasazení.
+1. Copy `.env.example` to `.env` and fill in the values.
+2. Make sure Docker and Docker Compose are installed.
+3. Setup frontend ([documentation](frontend/README.md)) and test dependencies if you plan to run them locally.
 
-* **Frontend:** React, TypeScript, Tailwind CSS / Material UI (PWA)
-* **Backend:** Java 21, Spring Boot 3, Spring Security (JWT) - https://start.spring.io
-* **Databáze:** PostgreSQL (v18)
-* **Message Broker:** RabbitMQ (pro asynchronní události mezi mikroservisami)
-* **API Gateway:** Nginx (v1.29)
-* **Infrastruktura:** Docker & Docker Compose
+## Run the project
 
-## Spuštění
-export $(grep -v '^#' .env | xargs) && mvn spring-boot:run
+Build the backend services:
 
-## 📁 Struktura repozitáře (Monorepo)
-```text
-bp-quiz-platform/
-├── frontend/               # Zdrojové kódy React aplikace
-│   ├── package.json
-│   └── ...
-├── backend/                # Zdrojové kódy backendových služeb (Spring Boot)
-│   ├── deck-service/       # Služba pro správu sad a otázek
-│   ├── flashcards-service/ # Služba pro flashcards samostudium
-│   ├── quiz-service/       # Služba pro real-time kvízy (WebSockets)
-│   └── user-service/       # Služba pro uživatele a autentizaci
-├── postgres-init/          # Inicializaci databází
-│   └── init.sql            # Skript, který vytvoří DB pro každou službu
-├── nginx/                  # Konfigurace pro Nginx (API Gateway)
-│   └── nginx.conf          # Pravidla pro směrování (REST vs WebSockets)
-├── docker-compose.yml      # Hlavní soubor pro spuštění infrastruktury
-├── .gitignore              # Gitem ignorované soubory (node_modules, target, .idea atd.)
-└── README.md                
+```bash
+bash build-microservices.sh
+```
+
+Start the full stack:
+
+```bash
+docker-compose up --build
+```
+
+Start the frontend locally:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## Tests
+
+- [`selenium_tests/`](selenium_tests) - Selenium end-to-end tests
+  - [`selenium_tests/README.md`](selenium_tests/README.md) - Selenium tests documentation
+- [`postman/`](postman) - Postman API tests
+  - [`postman/collections/API`](postman/collections/API) - API collection
+  - [`postman/environments/`](postman/environments) - Postman environments
+

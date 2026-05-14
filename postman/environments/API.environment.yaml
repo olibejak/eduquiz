@@ -1,0 +1,25 @@
+name: API
+values:
+  - key: googleToken
+    value: ''
+  - key: baseUrl
+    value: ''
+  - key: deckId
+    value: ''
+  - key: questionId
+    value: ''
+  - key: quizPin
+    value: ''
+  - key: participantToken
+    value: ''
+  - key: userId
+    value: ''
+  - key: username
+    value: ''
+  - key: email
+    value: ''
+  - key: lobbyPin
+    value: ''
+  - key: hostToken
+    value: ''
+color: 240

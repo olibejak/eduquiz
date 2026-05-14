@@ -1,0 +1,4 @@
+$kind: websocket-request
+name: Upgrade to STOMP
+url: ws://localhost:8080/ws-quiz
+order: 1778687040150
