@@ -1,6 +1,11 @@
 spring:
   application:
     name: FlashcardsServiceApplication
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
   datasource:
     url: ${DB_URL}${FLASHCARDS_DB_NAME}
     username: ${DB_USERNAME}
@@ -26,6 +31,13 @@ app:
     # Custom JWT
     jwt:
       secret: ${JWT_SECRET} # at least 256 bits / 32 characters
+  rabbitmq:
+    exchange:
+      deck: "deck.exchange"
+      user: "user.exchange"
+    queue:
+      deck-deleted: "flashcards-service.deck.deleted.queue"
+      user-deleted: "flashcards-service.user.deleted.queue"
 
 microservices:
   deck-service:

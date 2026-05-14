@@ -72,4 +72,8 @@ public interface FlashcardsProgressRepository extends JpaRepository<FlashcardPro
                                     Pageable pageable);
 
     void deleteByUserIdAndDeckId(UUID id, Long deckId);
+
+    void deleteByDeckId(Long deckId);
+
+    void deleteAllByUserId(UUID userId);
 }

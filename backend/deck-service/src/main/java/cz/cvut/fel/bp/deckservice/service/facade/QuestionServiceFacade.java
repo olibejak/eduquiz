@@ -49,6 +49,13 @@ public class QuestionServiceFacade {
 
         Question newQuestion = mapperFacade.toQuestionEntity(request);
 
+        List<Answer> answers = request.answers().stream()
+                .map(mapperFacade::toAnswerEntity)
+                .toList();
+
+        answers.forEach(answer -> answer.setQuestion(newQuestion));
+
+        newQuestion.setAnswers(answers);
         deck.addQuestion(newQuestion);
 
         Question savedQuestion = questionService.saveQuestion(newQuestion);

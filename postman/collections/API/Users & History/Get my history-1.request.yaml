@@ -1,0 +1,12 @@
+$kind: http-request
+name: Get my history
+url: "{{baseUrl}}/api/users/history/me"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+    language: text/javascript
+order: 4386482974183085

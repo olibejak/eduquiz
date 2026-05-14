@@ -1,0 +1,12 @@
+$kind: http-request
+name: Get dashboard
+url: "{{baseUrl}}/api/flashcards/dashboard"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+    language: text/javascript
+order: 4475673684962305

@@ -34,7 +34,7 @@ public class CustomJwtGenerator {
      * @param role Role of the user (e.g., "ROlE_USER", "ROLE_ADMIN")
      * @return Signed JWT as a text string
      */
-    public String generateToken(UUID userId, String role, String username) {
+    public String generateToken(UUID userId, String role, String username, String email) {
         Instant now = Instant.now();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
@@ -44,6 +44,7 @@ public class CustomJwtGenerator {
                 .subject(userId.toString())
                 .claim("userId", userId.toString())
                 .claim("username", username)
+                .claim("email", email)
                 .claim("role", role)
                 .build();
 

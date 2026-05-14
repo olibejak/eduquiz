@@ -1,0 +1,42 @@
+$kind: http-request
+name: Create question
+url: "{{baseUrl}}/api/decks/{{deckId}}/questions"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "text": "Which of the following keywords is used for inheritance in Java?",
+      "questionType": "MULTIPLE_CHOICE",
+      "duration": 30,
+      "answers": [
+        {
+          "text": "implements",
+          "type": "CHOICE",
+          "payload": {
+            "isCorrect": false,
+            "type": "CHOICE" 
+          }
+        },
+        {
+          "text": "extends",
+          "type": "CHOICE",
+          "payload": {
+            "isCorrect": true,
+            "type": "CHOICE" 
+          }
+        }
+      ]
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 201", function () {
+          pm.response.to.have.status(201);
+      });
+      var jsonData = pm.response.json();
+      if (jsonData.id) {
+          pm.environment.set("questionId", jsonData.id);
+      }
+    language: text/javascript
+order: 1502142003163704

@@ -9,6 +9,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +23,9 @@ public class QuizSessionController {
     private final QuizLobbyFacade lobbyFacade;
 
     @PostMapping("/create")
-    public CreateLobbyResponseDTO createLobby(@Valid @RequestBody JoinRequestDTO request) {
+    public ResponseEntity<CreateLobbyResponseDTO> createLobby(@Valid @RequestBody JoinRequestDTO request) {
         log.debug("action=createLobby userId={} nickname={}", request.userId(), request.nickname());
-        return lobbyFacade.createQuizSession(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(lobbyFacade.createQuizSession(request));
     }
 
     @PostMapping("/{pin}/join")

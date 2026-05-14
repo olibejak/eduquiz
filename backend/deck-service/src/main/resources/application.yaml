@@ -1,6 +1,11 @@
 spring:
   application:
     name: DeckServiceApplication
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
   datasource:
     url: ${DB_URL}${DECK_DB_NAME}
     username: ${DB_USERNAME}
@@ -26,6 +31,12 @@ app:
     # Custom JWT
     jwt:
       secret: ${JWT_SECRET} # at least 256 bits / 32 characters
+  rabbitmq:
+    exchange:
+      deck: "deck.exchange"
+      user: "user.exchange"
+    queue:
+      user-deleted: "deck-service.user.deleted.queue"
 
 microservices:
   user-service:

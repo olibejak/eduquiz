@@ -5,8 +5,10 @@ import cz.cvut.fel.bp.userservice.exception.ResourceNotFoundException;
 import cz.cvut.fel.bp.userservice.model.User;
 import cz.cvut.fel.bp.userservice.model.UserRole;
 import cz.cvut.fel.bp.userservice.repository.UserRepository;
+import cz.cvut.fel.bp.userservice.service.event.UserDeletedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     /**
      * Finds a user by given ID.
@@ -142,6 +145,7 @@ public class UserService {
         log.debug("Delete user request userId={}", userId);
         User user = getUserById(userId);
         userRepository.delete(user);
+        eventPublisher.publishEvent(new UserDeletedEvent(userId));
         log.info("Delete user completed userId={}", userId);
     }
 

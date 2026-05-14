@@ -1,5 +1,2 @@
 name: Globals
-values:
-  - key: OAuth_id_token
-    value: ''
-    enabled: true
+values: []

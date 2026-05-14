@@ -40,13 +40,15 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/auth/login/**",
                                 "/api/auth/register/**",
+                                "/api/auth/test/**",
                                 "/api/internal/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .bearerTokenResolver(request -> {
-                            if (request.getRequestURI().startsWith("/api/auth/")) {
+                            String uri = request.getRequestURI();
+                            if (uri.startsWith("/api/auth/login") || uri.startsWith("/api/auth/register")) {
                                 return null;
                             }
                             DefaultBearerTokenResolver resolver = new DefaultBearerTokenResolver();

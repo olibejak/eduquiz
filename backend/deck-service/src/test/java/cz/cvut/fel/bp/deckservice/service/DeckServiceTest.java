@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.List;
 import java.util.UUID;
@@ -36,11 +37,14 @@ class DeckServiceTest {
     @Mock
     private QuestionAnswerValidator questionAnswerValidator;
 
+    @Mock
+    private ApplicationEventPublisher applicationEventPublisher;
+
     private DeckService deckService;
 
     @BeforeEach
     void setUp() {
-        deckService = new DeckService(deckRepository, questionAnswerValidator);
+        deckService = new DeckService(deckRepository, questionAnswerValidator, applicationEventPublisher);
     }
 
     @Test

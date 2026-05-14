@@ -1,6 +1,5 @@
 package cz.cvut.fel.bp.userservice.security;
 
-import cz.cvut.fel.bp.userservice.model.UserRole;
 import lombok.Builder;
 
 import java.util.UUID;

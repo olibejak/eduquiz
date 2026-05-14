@@ -125,4 +125,18 @@ public class FlashcardProgressService {
         flashcardsProgressRepository.deleteByUserIdAndDeckId(id, deckId);
         log.debug("Deck progress deleted userId={}, deckId={}", id, deckId);
     }
+
+    @Transactional
+    public void deleteAllProgressForDeck(Long deckId) {
+        log.debug("Deleting all progress for deck deckId={}", deckId);
+        flashcardsProgressRepository.deleteByDeckId(deckId);
+        log.info("All progress for deck deleted deckId={}", deckId);
+    }
+
+    @Transactional
+    public void deleteAllProgressForUser(UUID userId) {
+        log.debug("Deleting all progress for user id={}", userId);
+        flashcardsProgressRepository.deleteAllByUserId(userId);
+        log.info("All progress for user deleted userId={}", userId);
+    }
 }
