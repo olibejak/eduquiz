@@ -155,7 +155,7 @@ export default function StudySession() {
                         {currentCard.text}
                     </h3>
 
-                    {!showAnswer && currentCard.questionType === 'CHOICE' && (
+                    {!showAnswer && currentCard.questionType === 'MULTIPLE_CHOICE' && (
                         <div className="flex flex-col gap-3 w-full max-w-md">
                             {currentCard.answers.map(ans => (
                                 <div key={ans.id} className="p-3 border rounded-lg text-sm md:text-base shadow-sm" style={{ borderColor: 'var(--border)', color: 'var(--text)', backgroundColor: 'var(--bg)' }}>
