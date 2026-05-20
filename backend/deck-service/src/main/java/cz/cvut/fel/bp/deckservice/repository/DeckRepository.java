@@ -25,7 +25,7 @@ public interface DeckRepository extends JpaRepository<Deck, Long> {
     Slice<Deck> findAllByVisibility(VisibilityType visibility, Pageable pageable);
     Slice<Deck> findAllByVisibilityOrAuthorId(VisibilityType visibility, UUID authorId, Pageable pageable);
 
-    @Query("SELECT d FROM Deck d JOIN d.favoritedByUsers u WHERE u = :userId AND d.visibility = 'PUBLIC' OR d.authorId = u")
+    @Query("SELECT d FROM Deck d JOIN d.favoritedByUsers u WHERE u = :userId AND (d.visibility = 'PUBLIC' OR d.authorId = :userId)")
     Slice<Deck> findAllPublicOrOwnFavorites(@Param("userId") UUID userId, Pageable pageable);
 
     /**
