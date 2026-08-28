@@ -19,24 +19,24 @@ EduQuiz is a comprehensive learning platform designed for individual study using
   - [`backend/deck-service`](backend/deck-service) - deck service
   - [`backend/quiz-service`](backend/quiz-service) - quiz service
   - [`backend/flashcards-service`](backend/flashcards-service) - flashcards service
-- [`nginx/`](nginx) - Nginx configuration for API gateway[cite: 3]
+- [`nginx/`](nginx) - Nginx configuration for API gateway
   - [`nginx/nginx.conf`](nginx/nginx.conf) - Nginx configuration file
-- [`postgres-init/`](postgres-init) - SQL scripts to initialize PostgreSQL databases[cite: 3]
-  - [`postgres-init/init.sql`](postgres-init/init.sql) - SQL initialization script[cite: 3]
+- [`postgres-init/`](postgres-init) - SQL scripts to initialize PostgreSQL databases
+  - [`postgres-init/init.sql`](postgres-init/init.sql) - SQL initialization script
 
-- [`docker-compose.yml`](docker-compose.yml) - local infrastructure[cite: 3]
-- [`build-microservices.sh`](build-microservices.sh) - script to build all Spring Boot microservices[cite: 3]
-- [`.env.example`](.env.example) - environment variables template[cite: 3]
+- [`docker-compose.yml`](docker-compose.yml) - local infrastructure
+- [`build-microservices.sh`](build-microservices.sh) - script to build all Spring Boot microservices
+- [`.env.example`](.env.example) - environment variables template
  
 ## ⚙️ Setup
 
-1. Copy `.env.example` to `.env` and fill in the corresponding values[cite: 3].
-2. Make sure Docker and Docker Compose are installed on your machine[cite: 3].
-3. Setup the frontend ([documentation](frontend/README.md)) and test dependencies if you plan to run them locally[cite: 3].
+1. Copy `.env.example` to `.env` and fill in the corresponding values.
+2. Make sure Docker and Docker Compose are installed on your machine.
+3. Setup the frontend ([documentation](frontend/README.md)) and test dependencies if you plan to run them locally.
 
 ### Run the project locally
 
-First, build the backend services:[cite: 3]
+First, build the backend services:
 
 ```bash
 bash build-microservices.sh
