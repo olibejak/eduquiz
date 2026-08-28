@@ -1,0 +1,15 @@
+name: Enforce Source Branch
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  verify-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Source branch check
+        if: github.head_ref != 'dev'
+        run: |
+          echo "::error::Critical error: Main branch can be merged only from dev branch."
+          exit 1
