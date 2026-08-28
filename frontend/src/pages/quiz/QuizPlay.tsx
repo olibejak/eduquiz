@@ -333,7 +333,7 @@ export default function QuizPlay() {
                 <div className="flex-1 flex flex-col w-full mt-2 md:mt-4">
                     {!isModeratorOnly && myResult && (
                         <div className={`text-center p-6 md:p-8 rounded-3xl w-full mb-6 md:mb-8 border-2 ${myResult.isCorrect ? 'bg-emerald-500/10 border-emerald-500 text-emerald-600 dark:text-emerald-400' : 'bg-red-500/10 border-red-500 text-red-600 dark:text-red-400'}`}>
-                            <h2 className="text-3xl md:text-4xl font-black mb-2">{myResult.isCorrect ? 'Správně! 🎉' : 'Špatně! 😢'}</h2>
+                            <h2 className="text-3xl md:text-4xl font-black mb-2">{myResult.isCorrect ? 'Správně!' : 'Špatně!'}</h2>
                             <p className="text-lg md:text-xl font-bold opacity-90 text-[var(--text-h)]">Vaše aktuální skóre: {myResult.currentScore} bodů</p>
                         </div>
                     )}
