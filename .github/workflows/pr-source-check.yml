@@ -11,5 +11,5 @@ jobs:
       - name: Source branch check
         if: github.head_ref != 'dev'
         run: |
-          echo "::error::Critical error: Main branch can be merged only from dev branch."
+          echo "::error:: Only the dev branch can be merged into main."
           exit 1

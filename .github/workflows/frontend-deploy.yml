@@ -16,6 +16,13 @@ jobs:
       - name: Repository checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: './frontend/package-lock.json'
+
       - name: Insert BE domain to vercel.json
         run: |
           sed -i "s|\*\*DOMAIN\*\*|${{ secrets.BACKEND_DOMAIN }}|g" vercel.json

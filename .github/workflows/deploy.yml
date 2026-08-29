@@ -20,7 +20,7 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Run buil script with tests
+      - name: Run the build script with tests
         run: bash build-microservices.sh
 
   deploy:
