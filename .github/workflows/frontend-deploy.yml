@@ -1,0 +1,30 @@
+name: Frontend CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v4
+
+      - name: Insert BE domain to vercel.json
+        run: |
+          sed -i "s|\*\*DOMAIN\*\*|${{ secrets.BACKEND_DOMAIN }}|g" vercel.json
+
+      - name: Vercel CLI installation
+        run: npm install --global vercel
+
+      - name: Deploy to Vercel
+        run: vercel deploy --prod --token ${{ secrets.VERCEL_TOKEN }} --yes
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
